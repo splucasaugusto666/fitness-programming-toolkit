@@ -10,7 +10,6 @@ from .core import (
     summarize_program,
     write_csv,
 )
-
 from .schema import get_program_schema
 
 __all__ = [
