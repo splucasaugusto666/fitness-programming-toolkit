@@ -5,7 +5,7 @@ import io
 import json
 import unittest
 from pathlib import Path
-from unittest.mock import Mock
+from unittest.mock import patch
 from wsgiref.util import setup_testing_defaults
 from wsgiref.validate import validator
 
@@ -25,6 +25,7 @@ class HTTPToolsTests(unittest.TestCase):
         setup_testing_defaults(environ)
         environ.update({
             "PATH_INFO": path, "REQUEST_METHOD": method, "CONTENT_TYPE": "application/json",
+            "QUERY_STRING": "",
             "CONTENT_LENGTH": str(len(raw)), "wsgi.input": io.BytesIO(raw),
             "HTTP_AUTHORIZATION": "Bearer " + TOKEN if auth is None else auth,
         })
@@ -61,12 +62,13 @@ class HTTPToolsTests(unittest.TestCase):
         self.assertNotIn("servers", openapi_document())
 
     def test_unauthorized_and_oversize_do_not_read_body(self):
-        source = Mock()
-        self.assertEqual(self.request(auth="", **{"wsgi.input": source})[0], 401)
-        self.assertEqual(self.request(auth="Bearer wrong", **{"wsgi.input": source})[0], 401)
-        self.assertEqual(self.request(CONTENT_LENGTH=str(MAX_REQUEST_BYTES + 1),
-                                      **{"wsgi.input": source})[0], 413)
-        source.read.assert_not_called()
+        source = io.BytesIO()
+        with patch.object(source, "read", side_effect=AssertionError("unexpected body read")) as reader:
+            self.assertEqual(self.request(auth="", **{"wsgi.input": source})[0], 401)
+            self.assertEqual(self.request(auth="Bearer wrong", **{"wsgi.input": source})[0], 401)
+            self.assertEqual(self.request(CONTENT_LENGTH=str(MAX_REQUEST_BYTES + 1),
+                                          **{"wsgi.input": source})[0], 413)
+            reader.assert_not_called()
 
     def test_reject_malformed_and_ambiguous_requests(self):
         for raw in (b"{}", b'{"plan_json":"{}","plan_json":"{}"}', b"NaN",
