@@ -4,6 +4,10 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Prevent accidental replacement of the JSON input with CSV, including existing aliases.
+- Add deterministic generated contract checks: 64 valid plans, 384 invalid mutations,
+  summary/CSV consistency and source preservation regressions.
+
 - Stage and synchronize CSV bytes before publishing. Preserve existing destinations
   on pre-publication write failures, and use exclusive hard-link publication unless
   `--force` requests replacement of the destination entry. Add five failure-injection
