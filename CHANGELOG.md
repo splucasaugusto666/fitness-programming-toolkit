@@ -4,6 +4,9 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Improve README discoverability and package metadata; add Portuguese integration guide
+  with an executable example and a regression test. Document responsible SEO practices.
+
 - Stream CSV into the transactional staging file; expose `write_csv` for caller-owned streams.
 - Add three regression tests and a reproducible buffered-versus-streaming memory benchmark.
 

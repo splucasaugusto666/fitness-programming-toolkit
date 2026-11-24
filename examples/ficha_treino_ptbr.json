@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "program_id": "exemplo-br-01",
+  "title": "Ficha de treino demonstrativa",
+  "weeks": 4,
+  "sessions": [
+    {
+      "session_id": "segunda-a",
+      "name": "Treino A — membros inferiores",
+      "day_of_week": "monday",
+      "exercises": [
+        {
+          "exercise_id": "agachamento",
+          "name": "Agachamento",
+          "sets": [
+            {
+              "reps": 8,
+              "rest_seconds": 120
+            },
+            {
+              "reps": 8,
+              "rest_seconds": 120
+            }
+          ]
+        },
+        {
+          "exercise_id": "leg-press",
+          "name": "Leg press",
+          "sets": [
+            {
+              "reps": 12,
+              "rest_seconds": 90
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
