@@ -57,6 +57,10 @@ def run():
         expected_schema = json.loads((ROOT / "schemas/program-1.0.schema.json").read_text(encoding="utf-8"))
         if json.loads(schema_result.stdout) != expected_schema:
             raise RuntimeError("Installed CLI schema differs from repository schema")
+        subprocess.run(
+            [str(python), "-c", "from fitness_programming_toolkit.ai import call_tool; "
+             "assert call_tool('fptk_schema', {})['ok']"], cwd=folder, check=True,
+        )
         fixture = ROOT / "examples/strength_program.json"
         result = subprocess.run(
             [str(cli), "summary", str(fixture)], cwd=folder,

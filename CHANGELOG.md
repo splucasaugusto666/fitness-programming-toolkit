@@ -4,6 +4,9 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Add a provider-neutral, read-only AI tool bridge and optional local MCP server;
+  verify declaration contracts, invalid inputs, and actual stdio protocol calls.
+
 - Bundle the versioned JSON Schema in wheels and expose it offline through
   `get_program_schema()` and `fptk schema`, with source and installed-package checks.
 

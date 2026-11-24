@@ -1,0 +1,90 @@
+# AI agent integration: MCP and function calling
+
+FPTK offers a local, deterministic tool layer for workout JSON validation and
+planned volume calculation. No model SDK, API key, network request or model
+inference is required to execute the tools. This does not generate training
+prescriptions or verify clinical suitability. Do not send personal or health
+records to a model provider without appropriate authorization.
+
+## Provider profiles
+
+The standard-library adapter returns fresh tool declarations. It does not call
+provider APIs or manage authentication, billing, conversation state or retries.
+
+| API or host | Profile / route |
+| --- | --- |
+| OpenAI Responses, compatible endpoints | openai-responses |
+| OpenAI Chat Completions; compatible DeepSeek, Mistral, Groq, Ollama endpoints | openai-chat |
+| Anthropic Claude Messages | anthropic |
+| Gemini GenerateContent (Python SDK tool declarations) | gemini |
+| Claude Desktop, Claude Code, Cursor, VS Code and other local MCP clients | Optional stdio MCP |
+| Other AI systems, including models without tool support | JSON schema + application-side validation |
+
+Compatibility is at the documented tool-declaration level, not a claim of live
+provider certification. Model/endpoint support varies. The ChatGPT consumer app
+and other hosted chat products do not automatically gain access to local stdio;
+they may require separately authorized hosting or connectors. No remote server is deployed.
+
+```python
+from fitness_programming_toolkit.ai import call_tool, tool_definitions
+
+tools = tool_definitions("openai-responses")
+# Pass tools to the provider request using your own SDK and credentials.
+# On receipt of a tool call, decode its arguments and dispatch locally:
+result = call_tool("fptk_validate", {"plan_json": "{}"})
+assert result["ok"] is False
+```
+
+For Chat Completions, pass the openai-chat list as tools; for Claude Messages,
+pass the anthropic list. For Gemini GenerateContent with the Python SDK, pass
+the gemini list as config.tools. Return the JSON result as the matching tool
+response with its original call ID/name as required by the provider. The host
+must handle provider errors, and must not execute arbitrary tool names.
+
+All three tools are read-only: fptk_schema, fptk_validate, fptk_summary.
+The latter two take a single string plan_json (maximum 2 MB UTF-8).
+The portable argument envelope avoids requiring each model to support the full
+workout schema's JSON Schema dialect. Retrieve the schema separately. Invalid
+input yields a bounded diagnostic with a stable error code. No file paths,
+arbitrary code, shell commands, or CSV writes are exposed.
+
+## Optional local MCP server
+
+From a checkout, use a separate environment:
+
+```sh
+python -m pip install '.[mcp]'
+python -m fitness_programming_toolkit.mcp_server
+```
+
+Configure a local MCP-capable host using its supported settings. For hosts using
+mcpServers JSON, substitute the absolute Python executable from your environment:
+
+```json
+{
+  "mcpServers": {
+    "fptk": {
+      "command": "/absolute/path/to/python",
+      "args": ["-m", "fitness_programming_toolkit.mcp_server"]
+    }
+  }
+}
+```
+
+This starts a local stdio process; it does not open a network listener.
+The MCP SDK is optional and is never imported by the core. Run the
+protocol smoke test with python tools/check_mcp.py after installing the extra.
+Cloud API calls may incur charges; the local validation itself is free.
+
+## References
+
+- OpenAI: https://developers.openai.com/api/docs/guides/function-calling
+- Claude: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
+- Gemini: https://ai.google.dev/gemini-api/docs/function-calling
+- MCP Python SDK: https://py.sdk.modelcontextprotocol.io/get-started/real-host/
+- DeepSeek: https://api-docs.deepseek.com/guides/tool_calls/
+- Mistral: https://docs.mistral.ai/inference/conversations/function-calling
+- Groq: https://console.groq.com/docs/tool-use/overview
+- Ollama: https://ollama.com/blog/tool-support
+
+The core validator remains authoritative. Use synthetic data in public examples.
