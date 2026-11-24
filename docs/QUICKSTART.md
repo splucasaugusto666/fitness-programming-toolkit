@@ -45,6 +45,8 @@ The CSV destination must be distinct from the JSON input, even with `--force`.
 Existing filesystem aliases of the input are rejected. This is an accidental-loss
 guard, not a guarantee against hostile concurrent path replacement.
 
+The CLI writes CSV incrementally into a temporary file before publication, instead of holding the complete CSV in memory. See [benchmark and methodology](BENCHMARKS.md).
+
 ## Use the Python interface
 
 ```python

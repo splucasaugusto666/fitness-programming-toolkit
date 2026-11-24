@@ -4,6 +4,9 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Stream CSV into the transactional staging file; expose `write_csv` for caller-owned streams.
+- Add three regression tests and a reproducible buffered-versus-streaming memory benchmark.
+
 - Prevent accidental replacement of the JSON input with CSV, including existing aliases.
 - Add deterministic generated contract checks: 64 valid plans, 384 invalid mutations,
   summary/CSV consistency and source preservation regressions.

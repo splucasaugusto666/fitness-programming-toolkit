@@ -13,7 +13,7 @@ import math
 from collections.abc import Iterator, Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, TextIO
 
 MAX_BYTES = 2_000_000
 MAX_SESSIONS = 30
@@ -246,10 +246,15 @@ def iter_csv_rows(program: Program) -> Iterator[tuple[str | int | float, ...]]:
                     )
 
 
-def export_csv(program: Program) -> str:
-    """Return RFC4180-compatible CSV as UTF-8 text, without writing to a file."""
-    stream = io.StringIO(newline="")
+def write_csv(program: Program, stream: TextIO) -> None:
+    """Write CSV incrementally to a caller-owned text stream opened with newline=""."""
     writer = csv.writer(stream, lineterminator="\r\n")
     writer.writerow(COLUMNS)
     writer.writerows(iter_csv_rows(program))
+
+
+def export_csv(program: Program) -> str:
+    """Return RFC4180-compatible CSV text, without writing to a file."""
+    stream = io.StringIO(newline="")
+    write_csv(program, stream)
     return stream.getvalue()
