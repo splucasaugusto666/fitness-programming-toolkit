@@ -11,8 +11,10 @@ from .core import (
     write_csv,
 )
 
+from .schema import get_program_schema
+
 __all__ = [
     "DataValidationError", "Program", "parse_program", "read_program",
-    "summarize_program", "iter_csv_rows", "export_csv", "write_csv",
+    "summarize_program", "iter_csv_rows", "export_csv", "write_csv", "get_program_schema",
 ]
 __version__ = "0.1.0"

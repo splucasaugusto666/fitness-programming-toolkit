@@ -4,6 +4,9 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Bundle the versioned JSON Schema in wheels and expose it offline through
+  `get_program_schema()` and `fptk schema`, with source and installed-package checks.
+
 - Expand CI to Windows and macOS alongside Linux; validate source and wheel builds,
   metadata, offline wheel installation in a clean environment and exact CLI output.
 - Include format schemas, examples, documentation and tests in source distributions.

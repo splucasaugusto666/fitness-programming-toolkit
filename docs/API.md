@@ -5,7 +5,7 @@ The interface may evolve before 1.0. This library validates **plan data**, not t
 ```python
 from fitness_programming_toolkit import (
     DataValidationError, Program, parse_program, read_program,
-    summarize_program, iter_csv_rows, export_csv, write_csv,
+    summarize_program, iter_csv_rows, export_csv, write_csv, get_program_schema,
  )
 ```
 
@@ -14,6 +14,16 @@ from fitness_programming_toolkit import (
 - `read_program(path: str | Path) -> Program`: read UTF-8 JSON (max 2 MB), reject duplicate JSON object keys and validate data; filesystem failures can raise `OSError`.
 - `parse_program(payload: dict) -> Program`: parse a Python dictionary following [the 1.0 format](FORMAT.md). Although typed as a Mapping, arbitrary custom mapping classes are not guaranteed to work.
 - `DataValidationError(ValueError)`: invalid data exception, with readable field paths; the message wording is not a stable machine API.
+
+## Offline schema discovery
+
+- `get_program_schema() -> dict`: returns a fresh copy of the bundled version 1.0
+  JSON Schema (Draft 2020-12), without network access or a source checkout.
+- `fptk schema`: prints the same JSON schema to stdout. This is an unreleased
+  interface on the default branch, useful for tooling that needs a structured
+  contract before producing workout data. It is a structural precheck, not a
+  guarantee of compatibility with a specific AI provider's structured-output subset.
+  Always use `parse_program` or `read_program` for authoritative validation.
 
 ## Data
 
