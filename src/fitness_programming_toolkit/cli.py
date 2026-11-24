@@ -9,10 +9,10 @@ import sys
 import tempfile
 from pathlib import Path
 
-from .core import DataValidationError, export_csv, read_program, summarize_program
+from .core import DataValidationError, Program, read_program, summarize_program, write_csv
 
 
-def _publish_csv(output: Path, content: str, *, force: bool) -> None:
+def _publish_csv(output: Path, program: Program, *, force: bool) -> None:
     """Stage complete bytes beside the destination before publishing them."""
     staged: Path | None = None
     try:
@@ -21,7 +21,7 @@ def _publish_csv(output: Path, content: str, *, force: bool) -> None:
             prefix=".fptk-", suffix=".tmp", delete=False,
         ) as stream:
             staged = Path(stream.name)
-            stream.write(content)
+            write_csv(program, stream)
             stream.flush()
             os.fsync(stream.fileno())
         if force:
@@ -64,9 +64,8 @@ def main(argv: list[str] | None = None) -> int:
                 same_input = False
             if same_input:
                 raise DataValidationError("CSV destination must differ from the JSON input")
-            # Serialize to memory first, avoiding a partially written file for bad data.
-            content = export_csv(program)
-            _publish_csv(args.output, content, force=args.force)
+            # Stage incrementally, publishing only after successful serialization.
+            _publish_csv(args.output, program, force=args.force)
             print(f"WROTE: {args.output}")
         return 0
     except (DataValidationError, OSError) as exc:

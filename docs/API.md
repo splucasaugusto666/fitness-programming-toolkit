@@ -5,7 +5,7 @@ The interface may evolve before 1.0. This library validates **plan data**, not t
 ```python
 from fitness_programming_toolkit import (
     DataValidationError, Program, parse_program, read_program,
-    summarize_program, iter_csv_rows, export_csv,
+    summarize_program, iter_csv_rows, export_csv, write_csv,
  )
 ```
 
@@ -24,6 +24,8 @@ from fitness_programming_toolkit import (
 - `summarize_program(program) -> dict`: returns `program_id`, `title`, `weeks`, `sessions_per_week`, `weekly_sets`, `weekly_reps`, `planned_sessions`, `planned_sets` and `planned_reps`.
 - `iter_csv_rows(program) -> Iterator[tuple]`: emits week/session/exercise/set rows, with no header; this is a low-level interface.
 - `export_csv(program) -> str`: returns CSV text with headers, UTF-8 compatible text and CRLF; it does **not** save a file.
+
+- `write_csv(program, stream) -> None`: incrementally writes the same header and CSV rows to a caller-owned text stream. Open disk streams with `encoding="utf-8", newline=""`; the function does not close or flush the stream and does not provide atomic publication. The CLI stages the output before publication.
 
 ## Minimal example
 
