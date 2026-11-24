@@ -13,3 +13,11 @@ expected behavior. **No issue or PR is guaranteed acceptance.**
 
 No AI-generated PR flooding, artificial contribution exchange, or deceptive metrics.
 Contributions are reviewed for maintainability, originality and fitness for purpose.
+
+
+## Focused contribution opportunities
+
+- [#1: JSON Schema 2020-12 with documented Python-only constraints](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1).
+- [#2: byte-for-byte CSV compatibility fixtures](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2).
+
+Discuss expected behavior before larger changes to avoid duplication. Run `ruff check .` as well as the unit suite and Python compile checks. [Maintainer guidance](docs/MAINTAINERS.md) explains review priorities. These are genuine development tasks, not a PR-count campaign.

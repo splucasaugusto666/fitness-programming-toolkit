@@ -1,6 +1,8 @@
 # Fitness Programming Toolkit (FPTK)
 
-**Status:** `0.1.0` public source prototype. Not published to PyPI. No stable API guarantee.
+[![Python CI](https://github.com/splucasaugusto666/fitness-programming-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/splucasaugusto666/fitness-programming-toolkit/actions/workflows/ci.yml)
+
+**Version:** `0.1.0` (alpha, unstable API). Distributed as GitHub source, **not PyPI**.
 
 FPTK is a small, offline Python package for checking the *structure* of strength-training
 plans, summarizing their planned volume, and exporting a set-by-set CSV that a coach can
@@ -62,6 +64,13 @@ print(export_csv(plan)[:100])
 
 See [docs/FORMAT.md](docs/FORMAT.md) for the exact schema and [CONTRIBUTING.md](CONTRIBUTING.md)
 for how to contribute. Test with `python -m unittest discover -s tests -v`.
+
+## Start contributing
+
+- [Issue #1: versioned JSON Schema](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1).
+- [Issue #2: CSV golden fixtures](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2).
+
+Real bug reproductions, integration requirements and tested improvements are welcome; there is no commitment to accept PRs. See [quickstart](docs/QUICKSTART.md), [API](docs/API.md), [maintainer guide](docs/MAINTAINERS.md), and [initial release notes](docs/RELEASE_NOTES_v0.1.0.md).
 
 ## Roadmap
 

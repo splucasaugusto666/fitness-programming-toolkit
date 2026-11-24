@@ -1,0 +1,51 @@
+name: Publish approved v0.1.0 prerelease
+
+on:
+  push:
+    branches:
+      - release/v0.1.0
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: github.repository == 'splucasaugusto666/fitness-programming-toolkit' && github.ref == 'refs/heads/release/v0.1.0'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install tooling
+        run: python -m pip install -e . ruff
+      - name: Validate candidate
+        run: |
+          ruff check .
+          python -m unittest discover -s tests -v
+          python -m compileall -q src tests
+          fptk validate examples/strength_program.json
+      - name: Verify identical main commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          MAIN_SHA="$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)"
+          test "$MAIN_SHA" = "$GITHUB_SHA" || { echo "Release branch diverges from main"; exit 1; }
+      - name: Publish GitHub alpha release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          if gh release view v0.1.0 >/dev/null 2>&1; then
+            echo 'Release v0.1.0 already exists; skip'
+            exit 0
+          fi
+          gh release create v0.1.0 \
+            --target "$GITHUB_SHA" \
+            --title 'v0.1.0 — initial public alpha' \
+            --notes-file docs/RELEASE_NOTES_v0.1.0.md \
+            --prerelease

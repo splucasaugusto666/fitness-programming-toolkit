@@ -1,25 +1,19 @@
-# Publication checklist (instructions only; nothing executed)
+# Maintainer release procedure
 
-Publication requires the account owner's explicit approval.
+The public GitHub repository is `splucasaugusto666/fitness-programming-toolkit`. The initial commits and CI passing Python 3.11–3.13 were verified before this release.
 
-1. Review source code and any company intellectual property concerns.
-2. Verify GitHub access and desired repository ownership / visibility.
-3. Check package name uniqueness if planning to release to PyPI.
-4. Create a new public GitHub repository without importing generated fake history.
-5. Create one honest initial commit with working source and documentation.
-6. Push, enable GitHub Actions, verify green CI, then tag a release if appropriate.
-7. Configure private vulnerability reporting, branch protection and issue templates.
-8. Collect public URLs and record objective activity metrics in the eligibility dashboard.
+## Initial release `v0.1.0`
 
-If GitHub CLI is installed and logged in, after explicit approval and from the
-`02-fitness-programming-toolkit` directory, a maintainer may use:
+Release notes live in [RELEASE_NOTES_v0.1.0.md](RELEASE_NOTES_v0.1.0.md). The GitHub prerelease is created by a narrowly scoped one-off Action when the maintainer-authorized `release/v0.1.0` branch is pushed, after lint and tests. Review the final release link, target commit and status on GitHub.
 
-```sh
-git init -b main
-git add .
-git commit -m "feat: initial fitness programming toolkit with tests"
-gh repo create fitness-programming-toolkit --public --source=. --remote=origin --push
-```
+This is a **source-only GitHub release**. No PyPI account is touched, no software downloads are claimed, and no users are enrolled.
 
-These are **manual commands**, not evidence of actions that have taken place.
-Do not execute them before approving a repository creation.
+## Later versions
+
+1. Obtain maintainer approval for the version and release scope.
+2. Update changelog and notes; review security and compatibility.
+3. Run lint, tests and CLI smoke checks on supported Python versions.
+4. Create a tag and release from the reviewed commit; check the actual tag and CI.
+5. Record verified issue and PR outcomes; do not inflate adoption metrics.
+
+Retire the one-off release workflow after `v0.1.0` and review any general release automation separately.
