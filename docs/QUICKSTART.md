@@ -43,7 +43,10 @@ See [API.md](API.md) for the exported functions and [FORMAT.md](FORMAT.md) for s
 
 ## Run checks
 
+Install the test extra and lint tool before running the full developer suite.
+
 ```sh
+python -m pip install -e '.[test]' ruff
 python -m unittest discover -s tests -v
 python -m compileall -q src tests
 ruff check .  # development tool; installed by CI

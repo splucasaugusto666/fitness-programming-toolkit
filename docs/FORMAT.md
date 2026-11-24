@@ -56,6 +56,7 @@ and trust policy. No spreadsheet formula is evaluated by the test suite.
 Run the contract tests with:
 
 ```sh
+python -m pip install -e '.[test]'
 python -m unittest discover -s tests -v
 ```
 

@@ -2,7 +2,7 @@
 
 The following **real issues** document current and completed engineering work:
 
-1. [#1 — Add a versioned JSON Schema with documented parity limits](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1). The standalone schema and parity tests are implemented in the proposed update; Python-only constraints are documented in the format guide.
+1. [#1 — Add a versioned JSON Schema with documented parity limits](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1). The standalone schema and parity tests are implemented; Python-only constraints are documented in the format guide.
 2. [#2 — Add deterministic CSV golden fixtures](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2) — **completed by [PR #3](https://github.com/splucasaugusto666/fitness-programming-toolkit/pull/3)**. Exact CSV bytes and regression tests are now part of the repository.
 
 ## Research only; not a contribution claim
