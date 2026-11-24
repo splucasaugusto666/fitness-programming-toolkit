@@ -31,11 +31,17 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "summary":
             print(json.dumps(summarize_program(program), indent=2, ensure_ascii=False))
         else:
-            if args.output.exists() and not args.force:
-                raise DataValidationError(f"{args.output}: already exists; pass --force to replace")
             # Serialize to memory first, avoiding a partially written file for bad data.
             content = export_csv(program)
-            args.output.write_text(content, encoding="utf-8", newline="")
+            try:
+                with args.output.open(
+                    "w" if args.force else "x", encoding="utf-8", newline=""
+                ) as destination:
+                    destination.write(content)
+            except FileExistsError as exc:
+                raise DataValidationError(
+                    f"{args.output}: already exists; pass --force to replace"
+                ) from exc
             print(f"WROTE: {args.output}")
         return 0
     except (DataValidationError, OSError) as exc:
