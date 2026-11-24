@@ -4,10 +4,36 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
+import tempfile
 from pathlib import Path
 
 from .core import DataValidationError, export_csv, read_program, summarize_program
+
+
+def _publish_csv(output: Path, content: str, *, force: bool) -> None:
+    """Stage complete bytes beside the destination before publishing them."""
+    staged: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", newline="", dir=output.parent,
+            prefix=".fptk-", suffix=".tmp", delete=False,
+        ) as stream:
+            staged = Path(stream.name)
+            stream.write(content)
+            stream.flush()
+            os.fsync(stream.fileno())
+        if force:
+            os.replace(staged, output)
+        else:
+            # Linking a complete file preserves no-overwrite semantics without a race.
+            os.link(staged, output)
+    except FileExistsError as exc:
+        raise DataValidationError(f"{output}: already exists; pass --force to replace") from exc
+    finally:
+        if staged is not None:
+            staged.unlink(missing_ok=True)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -33,15 +59,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             # Serialize to memory first, avoiding a partially written file for bad data.
             content = export_csv(program)
-            try:
-                with args.output.open(
-                    "w" if args.force else "x", encoding="utf-8", newline=""
-                ) as destination:
-                    destination.write(content)
-            except FileExistsError as exc:
-                raise DataValidationError(
-                    f"{args.output}: already exists; pass --force to replace"
-                ) from exc
+            _publish_csv(args.output, content, force=args.force)
             print(f"WROTE: {args.output}")
         return 0
     except (DataValidationError, OSError) as exc:

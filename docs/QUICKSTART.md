@@ -27,7 +27,19 @@ The validation command prints `VALID: demo-strength-01 (schema 1.0)`. The unchan
 fptk export-csv examples/strength_program.json --output program.csv
 ```
 
-The sample produces 28 data rows and a fixed 13-column header. UTF-8 CSV uses CRLF line endings; formula-like user text is prefixed with an apostrophe. An existing output file is preserved unless you pass `--force`. This is a defensive measure and not a guarantee for every spreadsheet program.
+The sample produces 28 data rows and a fixed 13-column header. UTF-8 CSV uses CRLF line endings; formula-like user text is prefixed with an apostrophe. The spreadsheet escaping is a defensive measure, not a guarantee for every spreadsheet program.
+
+CSV writes are staged in a temporary file in the output directory, flushed and
+synchronized before publication. Without `--force`, publication uses an exclusive
+hard link and cannot overwrite a concurrently created destination. With `--force`,
+publication replaces the destination entry, not the target of a symbolic link.
+An existing destination is preserved if staging or publication fails before the
+replacement. On filesystems without hard-link support, non-forced publication
+returns an error rather than silently falling back to an unsafe overwrite.
+The newly published file uses temporary-file permissions (typically owner-only on
+POSIX), not the previous destination's metadata. These safeguards are not a promise
+of power-loss durability, directory synchronization, or safety against arbitrary
+changes to a parent directory. Use a trusted output directory.
 
 ## Use the Python interface
 
