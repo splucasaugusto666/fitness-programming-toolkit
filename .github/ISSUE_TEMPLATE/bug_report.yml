@@ -1,0 +1,24 @@
+name: Bug report
+description: Reproducible defect in validation, reporting, CLI or CSV export
+labels: [bug]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and expected behavior
+      description: Describe what failed and the expected outcome. Remove any client information.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Minimal reproduction steps
+      description: Include a minimal synthetic JSON fixture, the command and output.
+    validations:
+      required: true
+  - type: input
+    id: runtime
+    attributes:
+      label: Python version and operating system
+    validations:
+      required: true
