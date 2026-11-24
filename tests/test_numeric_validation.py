@@ -24,19 +24,20 @@ class NumericValidationTests(unittest.TestCase):
     def test_large_integers_raise_field_validation_error(self):
         for field in ("load_kg", "rpe"):
             for value in (10**400, -(10**400)):
-                with self.subTest(field=field, sign=value > 0):
-                    with self.assertRaisesRegex(
+                with (
+                    self.subTest(field=field, sign=value > 0),
+                    self.assertRaisesRegex(
                         DataValidationError,
                         rf"\$\.sessions\[0\]\.exercises\[0\]\.sets\[0\]\.{field}:",
-                    ):
-                        parse_program(plan_with(field, value))
+                    ),
+                ):
+                    parse_program(plan_with(field, value))
 
     def test_nonfinite_and_boolean_values_remain_invalid(self):
         for field in ("load_kg", "rpe"):
             for value in (float("nan"), float("inf"), -float("inf"), True, False):
-                with self.subTest(field=field, value=value):
-                    with self.assertRaises(DataValidationError):
-                        parse_program(plan_with(field, value))
+                with self.subTest(field=field, value=value), self.assertRaises(DataValidationError):
+                    parse_program(plan_with(field, value))
 
     def test_finite_boundaries_and_null_remain_valid(self):
         for field, values in (("load_kg", (0, 5000, 12.5, None)), ("rpe", (1, 10, 7.5, None))):
