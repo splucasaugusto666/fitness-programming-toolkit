@@ -74,6 +74,14 @@ This is a provider-independent data contract, not a native integration with any
 particular LLM or a guarantee that every structured-output API supports all schema
 keywords. FPTK still validates all generated data before use.
 
+## AI integrations: MCP and provider-neutral function tools
+
+The default branch's optional [AI integration guide](docs/AI_INTEGRATIONS.md)
+provides local MCP tools and function declarations for OpenAI, Anthropic, Gemini
+and compatible APIs. The core remains dependency-free and offline; no provider
+credentials, remote calls or model SDKs are needed for the local dispatcher.
+Provider profiles are contract-tested locally, not certified by vendors.
+
 ## Typical uses
 
 - Reject malformed workout JSON before an import to a gym or coaching app.

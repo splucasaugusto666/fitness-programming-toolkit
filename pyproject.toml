@@ -29,6 +29,7 @@ Changelog = "https://github.com/splucasaugusto666/fitness-programming-toolkit/bl
 
 [project.optional-dependencies]
 test = ["jsonschema>=4.23,<5"]
+mcp = ["mcp>=2,<3"]
 
 [project.scripts]
 fptk = "fitness_programming_toolkit.cli:main"

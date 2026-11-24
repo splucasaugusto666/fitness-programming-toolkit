@@ -57,3 +57,11 @@ de alocações Python na exportação em streaming em relação à própria vers
 
 Para contribuir, leia [CONTRIBUTING.md](../CONTRIBUTING.md) ou
 [relate um problema reproduzível](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues).
+
+## Integração com inteligência artificial
+
+O [guia de integração com IA](AI_INTEGRATIONS.md) apresenta chamadas de ferramentas
+para OpenAI, Claude, Gemini e APIs compatíveis, além do servidor MCP local opcional.
+O núcleo continua offline e sem dependências obrigatórias. A validação é estrutural,
+não uma prescrição de treino nem certificação clínica. As APIs comerciais podem cobrar
+pelo uso dos modelos; o processamento local não precisa de chave de API.
