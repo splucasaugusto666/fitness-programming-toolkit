@@ -84,6 +84,8 @@ def _string(value: Any, path: str, *, max_length: int = 120) -> str:
         raise DataValidationError(f"{path}: must be trimmed, length <= {max_length}")
     if any(ord(ch) < 32 or ord(ch) == 127 for ch in value):
         raise DataValidationError(f"{path}: control characters are not allowed")
+    if any(0xD800 <= ord(ch) <= 0xDFFF for ch in value):
+        raise DataValidationError(f"{path}: expected Unicode scalar values")
     return value
 
 
@@ -187,9 +189,12 @@ def read_program(path: str | Path) -> Program:
     if len(raw) > MAX_BYTES:
         raise DataValidationError(f"{p}: exceeds {MAX_BYTES} bytes")
     try:
-        return parse_program(json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_json_pairs))
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        payload = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_json_pairs)
+    except DataValidationError:
+        raise
+    except (ValueError, RecursionError) as exc:
         raise DataValidationError(f"{p}: malformed UTF-8 JSON: {exc}") from exc
+    return parse_program(payload)
 
 
 def summarize_program(program: Program) -> dict[str, Any]:

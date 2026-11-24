@@ -13,7 +13,8 @@ The version literal is `"1.0"`, not a numeric version. Unknown fields are reject
 - `sets`: 1 to 30 per exercise. Required `reps` is an integer 1–1000.
   Required `rest_seconds` is an integer 0–7200. Optional `load_kg` is a finite
   number 0–5000, or null. Optional `rpe` is a finite number 1–10, or null.
-- String values cannot contain ASCII controls (including newlines and tabs).
+- String values cannot contain ASCII controls (including newlines and tabs) or isolated
+  UTF-16 surrogate code points. Valid supplementary Unicode scalar characters are accepted.
 - JSON numbers must be finite. The total sets in the weekly template cannot exceed 5000.
 
 CSV columns: `program_id`, `program_title`, `week`, `session_id`, `session_name`,
@@ -108,7 +109,10 @@ program = read_program("examples/strength_program.json")
   booleans. JSON Schema operates on parsed JSON values, not their numeric spelling.
 - The schema cannot enforce the original file's 2 MB byte limit, UTF-8
   encoding, JSON duplicate member names, or non-standard non-finite tokens.
-  Use a strict JSON parser and the FPTK file reader for those checks.
+  Use a strict JSON parser and the FPTK file reader for those checks. Parser-dependent
+  numeric token and nesting limits can also cause decoding failures before structural
+  validation. FPTK reports these as DataValidationError. The runtime rejects isolated
+  surrogate code points; Unicode handling may differ between schema validators.
 - Neither validator evaluates clinical or training suitability.
 
 See [valid](../tests/fixtures/schema_valid.json) and

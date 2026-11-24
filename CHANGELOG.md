@@ -4,6 +4,9 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Normalize JSON decoder failures into `DataValidationError` and reject isolated
+  Unicode surrogates before CSV serialization; add API and CLI regression tests.
+
 - Fixed out-of-range integer loads and RPE values raising `OverflowError` instead of
   `DataValidationError`; added API and CLI regressions, including output preservation.
 
