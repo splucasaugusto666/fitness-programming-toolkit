@@ -4,6 +4,10 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Add a separate offline AI CLI with bounded stdin and JSON tool results,
+  an executable synthetic provider example and six regression tests.
+- Keep model-visible error messages bounded after escaping control characters.
+
 - Add a provider-neutral, read-only AI tool bridge and optional local MCP server;
   verify declaration contracts, invalid inputs, and actual stdio protocol calls.
 

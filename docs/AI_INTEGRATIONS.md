@@ -48,6 +48,38 @@ workout schema's JSON Schema dialect. Retrieve the schema separately. Invalid
 input yields a bounded diagnostic with a stable error code. No file paths,
 arbitrary code, shell commands, or CSV writes are exposed.
 
+## Offline command-line integration (any language)
+
+The default branch includes a standalone entry point for applications that
+cannot import Python directly. From the installed environment:
+
+```sh
+fptk-ai tools openai-responses
+fptk-ai tools openai-chat
+fptk-ai tools anthropic
+fptk-ai tools gemini
+fptk-ai call fptk_schema
+fptk-ai call fptk_summary < examples/strength_program.json
+```
+
+The last command uses shell input redirection (POSIX shells or cmd.exe).
+For PowerShell or other languages, launch the process with binary UTF-8
+standard input and capture standard output. The module is also executable
+as `python -m fitness_programming_toolkit.ai_cli`.
+
+The call interface accepts raw workout JSON on stdin (not an argument
+envelope), and reads at most 2 MB plus one byte. All tool results are JSON
+on stdout; invalid plan/input returns exit code 2. Provider declarations
+are emitted as JSON arrays. Argument parsing errors use argparse's normal
+stderr and exit code 2. There is no file-path parameter, network access,
+model inference, or CSV write operation in this interface.
+
+The synthetic [offline provider example](../examples/ai_tool_demo.py)
+can be run with `python examples/ai_tool_demo.py`. It prints declarations
+for every profile and a simulated result from the same local dispatcher;
+it does not send any API request. A host still needs to implement its
+provider's message and tool-result protocol.
+
 ## Optional local MCP server
 
 From a checkout, use a separate environment:

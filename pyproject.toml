@@ -33,6 +33,7 @@ mcp = ["mcp>=2,<3"]
 
 [project.scripts]
 fptk = "fitness_programming_toolkit.cli:main"
+fptk-ai = "fitness_programming_toolkit.ai_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -81,6 +81,9 @@ provides local MCP tools and function declarations for OpenAI, Anthropic, Gemini
 and compatible APIs. The core remains dependency-free and offline; no provider
 credentials, remote calls or model SDKs are needed for the local dispatcher.
 Provider profiles are contract-tested locally, not certified by vendors.
+Use `fptk-ai tools openai-responses` to export declarations or
+`fptk-ai call fptk_schema` to retrieve the workout contract as JSON.
+The AI-specific CLI is independent of the existing `fptk` commands.
 
 ## Typical uses
 
