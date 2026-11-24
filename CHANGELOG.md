@@ -2,7 +2,10 @@
 
 Changes to the plan format and command output must be recorded here. FPTK is in its experimental 0.x series.
 
-## [Unreleased] — CSV contract and JSON Schema
+## [Unreleased] — CSV contract, JSON Schema and validation fixes
+
+- Fixed out-of-range integer loads and RPE values raising `OverflowError` instead of
+  `DataValidationError`; added API and CLI regressions, including output preservation.
 
 - Added a versioned, standalone Draft 2020-12 JSON Schema with valid and invalid fixtures.
 - Added tests for structural agreement and explicit runtime-only constraints.

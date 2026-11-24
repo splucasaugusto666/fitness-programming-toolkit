@@ -94,7 +94,8 @@ def _integer(value: Any, path: str, *, low: int, high: int) -> int:
 
 
 def _number(value: Any, path: str, *, low: float, high: float) -> float:
-    if type(value) not in (int, float) or not math.isfinite(value) or not low <= value <= high:
+    # Compare bounds before float conversion: Python integers can exceed float range.
+    if type(value) not in (int, float) or not low <= value <= high or not math.isfinite(value):
         raise DataValidationError(f"{path}: expected finite number in [{low}, {high}]")
     return float(value)
 
