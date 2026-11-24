@@ -76,6 +76,12 @@ def run():
             "fptk_schema", "fptk_validate", "fptk_summary",
         }:
             raise RuntimeError("Installed AI CLI declarations are incomplete")
+        api_result = subprocess.run(
+            [str(ai_cli), "openapi"], cwd=folder, check=True, capture_output=True,
+        )
+        api = json.loads(api_result.stdout)
+        if api["openapi"] != "3.1.0" or api["security"] != [{"bearerAuth": []}]:
+            raise RuntimeError("Installed OpenAPI contract is incomplete")
         config_result = subprocess.run(
             [str(ai_cli), "mcp-config", "cursor"], cwd=folder, check=True, capture_output=True,
         )

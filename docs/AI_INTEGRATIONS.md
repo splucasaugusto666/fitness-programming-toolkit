@@ -132,8 +132,51 @@ The MCP SDK is optional and is never imported by the core. Run the
 protocol smoke test with python tools/check_mcp.py after installing the extra.
 Cloud API calls may incur charges; the local validation itself is free.
 
+## Optional authenticated HTTP adapter / OpenAPI for remote agents
+
+The default branch includes a separate WSGI application factory. It does not
+start a server, deploy anything or expose the local filesystem. Export the
+OpenAPI 3.1 contract:
+
+```sh
+fptk-ai openapi
+fptk-ai openapi --server-url https://your-operator-controlled-host.example
+```
+
+A deployment operator can create the callable in their own WSGI entry point:
+
+```python
+import os
+from fitness_programming_toolkit.http_tools import create_app
+
+application = create_app(os.environ["FPTK_HTTP_TOKEN"])
+```
+
+Generate a cryptographically random token (for example with Python's secrets
+module); never commit it or put it in the OpenAPI document. Use a production
+WSGI server behind HTTPS, with request limits, timeouts, rate limiting and
+access control. The application requires an Authorization: Bearer header on
+every route and does not log request bodies. It accepts uncompressed JSON with
+Content-Length; the transport envelope is bounded to 12,000,128 bytes, and the
+inner plan remains limited to 2,000,000 UTF-8 bytes. The host must enforce its
+own transport limits and ensure upstream request framing is correct. This is
+not a multi-tenant service, OAuth implementation or hardened public gateway.
+
+The three routes are GET /v1/schema, POST /v1/validate and POST /v1/summary.
+POST bodies are objects with a plan_json string. There are no file-path,
+shell or write operations. An invalid plan yields HTTP 422; missing or
+incorrect credentials yield HTTP 401. Response data is marked no-store.
+
+For hosted GPT Actions and other OpenAPI consumers, deploy and review the
+service first, then configure the real HTTPS URL and bearer authentication in
+the client. Hosted apps cannot connect to this code merely by importing the
+contract. No live vendor or public-host compatibility has been certified.
+
 ## References
 
+- OpenAPI 3.1: https://spec.openapis.org/oas/v3.1.0
+- GPT Actions: https://help.openai.com/en/articles/9442513-configuring-actions-in-gpts
+- WSGI: https://peps.python.org/pep-3333/
 - OpenAI: https://developers.openai.com/api/docs/guides/function-calling
 - Claude: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
 - Gemini: https://ai.google.dev/gemini-api/docs/function-calling
