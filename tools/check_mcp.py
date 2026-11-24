@@ -2,18 +2,18 @@
 from __future__ import annotations
 
 import asyncio
-import sys
 from pathlib import Path
 
 from mcp import Client, StdioServerParameters
+
+from fitness_programming_toolkit.mcp_config import mcp_config
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 async def run() -> None:
-    params = StdioServerParameters(
-        command=sys.executable, args=["-m", "fitness_programming_toolkit.mcp_server"]
-    )
+    launch = mcp_config("cursor")["mcpServers"]["fptk"]
+    params = StdioServerParameters(command=launch["command"], args=launch["args"])
     async with Client(params) as client:
         tools = await client.list_tools()
         assert {tool.name for tool in tools.tools} == {

@@ -65,3 +65,5 @@ para OpenAI, Claude, Gemini e APIs compatíveis, além do servidor MCP local opc
 O núcleo continua offline e sem dependências obrigatórias. A validação é estrutural,
 não uma prescrição de treino nem certificação clínica. As APIs comerciais podem cobrar
 pelo uso dos modelos; o processamento local não precisa de chave de API.
+
+Para facilitar a conexão com clientes MCP locais, instale o extra em um ambiente virtual e gere a configuração com `fptk-ai mcp-config claude-desktop`, `fptk-ai mcp-config cursor` ou `fptk-ai mcp-config vscode`. Mescle a entrada no cliente manualmente. O comando não altera configurações, não inicia servidores e não conecta automaticamente aplicativos hospedados na nuvem.

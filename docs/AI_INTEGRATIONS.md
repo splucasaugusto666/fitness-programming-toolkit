@@ -89,15 +89,39 @@ python -m pip install '.[mcp]'
 python -m fitness_programming_toolkit.mcp_server
 ```
 
-Configure a local MCP-capable host using its supported settings. For hosts using
-mcpServers JSON, substitute the absolute Python executable from your environment:
+Generate the configuration from the same environment where the MCP extra is installed:
+
+```sh
+fptk-ai mcp-config claude-desktop
+fptk-ai mcp-config cursor
+fptk-ai mcp-config vscode
+fptk-ai mcp-config mcpservers
+```
+
+The first two use the standard `mcpServers` object; the VS Code profile uses
+the editor-managed `servers` object. The generic profile is intended for
+compatible local clients. Merge the single FPTK entry into your existing
+configuration manually, following the client's instructions; do not overwrite
+unrelated settings. The generator does not modify files, install anything,
+include credentials or start a server. A missing MCP extra must be installed
+before launching the server. These configurations are based on the clients'
+documented formats; individual desktop applications are not exercised in CI.
+
+The generated command uses the current Python executable (including the virtual
+environment path) and isolated mode (`-I`). This reduces import shadowing by
+the current directory or PYTHONPATH. It is not an OS sandbox and does not
+protect against a compromised Python environment. Install into a trusted virtual
+environment rather than relying on user-site packages, which isolated mode
+excludes. The config should not be committed if it contains a machine-specific path.
+
+Example for clients accepting mcpServers JSON:
 
 ```json
 {
   "mcpServers": {
     "fptk": {
       "command": "/absolute/path/to/python",
-      "args": ["-m", "fitness_programming_toolkit.mcp_server"]
+      "args": ["-I", "-m", "fitness_programming_toolkit.mcp_server"]
     }
   }
 }
@@ -113,6 +137,8 @@ Cloud API calls may incur charges; the local validation itself is free.
 - OpenAI: https://developers.openai.com/api/docs/guides/function-calling
 - Claude: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
 - Gemini: https://ai.google.dev/gemini-api/docs/function-calling
+- Cursor MCP configuration: https://cursor.com/docs/mcp
+- VS Code editor-managed MCP configuration: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
 - MCP Python SDK: https://py.sdk.modelcontextprotocol.io/get-started/real-host/
 - DeepSeek: https://api-docs.deepseek.com/guides/tool_calls/
 - Mistral: https://docs.mistral.ai/inference/conversations/function-calling

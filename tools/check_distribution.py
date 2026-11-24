@@ -76,6 +76,14 @@ def run():
             "fptk_schema", "fptk_validate", "fptk_summary",
         }:
             raise RuntimeError("Installed AI CLI declarations are incomplete")
+        config_result = subprocess.run(
+            [str(ai_cli), "mcp-config", "cursor"], cwd=folder, check=True, capture_output=True,
+        )
+        entry = json.loads(config_result.stdout)["mcpServers"]["fptk"]
+        if Path(entry["command"]) != python or entry["args"] != [
+            "-I", "-m", "fitness_programming_toolkit.mcp_server",
+        ]:
+            raise RuntimeError("Installed MCP config does not use the isolated environment")
         result = subprocess.run(
             [str(cli), "summary", str(fixture)], cwd=folder,
             check=True, capture_output=True, text=True, encoding="utf-8",

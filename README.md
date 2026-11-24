@@ -83,6 +83,8 @@ credentials, remote calls or model SDKs are needed for the local dispatcher.
 Provider profiles are contract-tested locally, not certified by vendors.
 Use `fptk-ai tools openai-responses` to export declarations or
 `fptk-ai call fptk_schema` to retrieve the workout contract as JSON.
+Generate local client settings with `fptk-ai mcp-config claude-desktop`,
+`fptk-ai mcp-config cursor` or `fptk-ai mcp-config vscode`.
 The AI-specific CLI is independent of the existing `fptk` commands.
 
 ## Typical uses
