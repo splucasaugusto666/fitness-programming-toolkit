@@ -54,6 +54,26 @@ with open("program-api.csv", "x", encoding="utf-8", newline="") as output:
 
 This example uses the default branch's unreleased streaming API. The caller owns the stream; use the CLI for staged file publication. See [API reference](docs/API.md) and [filesystem limitations](docs/QUICKSTART.md).
 
+## JSON Schema for AI agents and offline integrations
+
+The unreleased default branch includes the versioned schema in the installed
+Python package. Retrieve it without downloading any external resources:
+
+```sh
+fptk schema > workout-schema.json
+```
+
+```python
+from fitness_programming_toolkit import get_program_schema, parse_program
+
+schema = get_program_schema()  # structural contract, Draft 2020-12
+# Validate any generated workout dictionary with parse_program(payload).
+```
+
+This is a provider-independent data contract, not a native integration with any
+particular LLM or a guarantee that every structured-output API supports all schema
+keywords. FPTK still validates all generated data before use.
+
 ## Typical uses
 
 - Reject malformed workout JSON before an import to a gym or coaching app.

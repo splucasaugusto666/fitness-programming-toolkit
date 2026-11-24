@@ -10,6 +10,7 @@ import tempfile
 from pathlib import Path
 
 from .core import DataValidationError, Program, read_program, summarize_program, write_csv
+from .schema import get_program_schema
 
 
 def _publish_csv(output: Path, program: Program, *, force: bool) -> None:
@@ -49,8 +50,12 @@ def main(argv: list[str] | None = None) -> int:
         if command == "export-csv":
             command_parser.add_argument("--output", "-o", type=Path, required=True)
             command_parser.add_argument("--force", action="store_true", help="Replace existing file")
+    sub.add_parser("schema", help="Print the bundled workout JSON Schema")
     args = parser.parse_args(argv)
     try:
+        if args.command == "schema":
+            print(json.dumps(get_program_schema(), indent=2, ensure_ascii=True))
+            return 0
         program = read_program(args.input)
         if args.command == "validate":
             print(f"VALID: {program.program_id} (schema {program.schema_version})")

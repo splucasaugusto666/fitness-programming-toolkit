@@ -17,7 +17,9 @@ python tools/check_distribution.py
 ```
 
 The source archive includes the format schema, examples, documentation and
-tests. The wheel contains the Python runtime and CLI, not the entire repository.
+tests. The wheel contains the Python runtime, CLI and bundled version 1.0 JSON Schema,
+not the entire repository. CI checks that the bundled schema bytes match the
+repository's public schema and that the installed CLI exposes the same content.
 The verification script installs the local wheel without dependencies or index
 access into a fresh virtual environment outside the checkout, checks its
 metadata, runs the documented CLI, and compares CSV bytes to the golden fixture.

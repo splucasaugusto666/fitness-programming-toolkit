@@ -33,6 +33,9 @@ def run():
         requirements = metadata.get_all("Requires-Dist", [])
         if any("extra ==" not in item for item in requirements):
             raise RuntimeError(f"Unexpected runtime requirements: {requirements}")
+        bundled = "fitness_programming_toolkit/program-1.0.schema.json"
+        if archive.read(bundled) != (ROOT / "schemas/program-1.0.schema.json").read_bytes():
+            raise RuntimeError("Wheel schema differs from the repository schema")
         for path in ("fitness_programming_toolkit/core.py", "fitness_programming_toolkit/cli.py"):
             if path not in names:
                 raise RuntimeError(f"Wheel missing {path}")
@@ -47,6 +50,13 @@ def run():
             [str(python), "-m", "pip", "install", "--no-deps", "--no-index", str(wheel)],
             cwd=folder, check=True,
         )
+        schema_result = subprocess.run(
+            [str(cli), "schema"], cwd=folder, check=True, capture_output=True,
+            text=True, encoding="utf-8",
+        )
+        expected_schema = json.loads((ROOT / "schemas/program-1.0.schema.json").read_text(encoding="utf-8"))
+        if json.loads(schema_result.stdout) != expected_schema:
+            raise RuntimeError("Installed CLI schema differs from repository schema")
         fixture = ROOT / "examples/strength_program.json"
         result = subprocess.run(
             [str(cli), "summary", str(fixture)], cwd=folder,
