@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "program_id": "+fixture-id",
+  "title": "=SOMA(A1:A2) - \"ação\", São Paulo",
+  "weeks": 2,
+  "sessions": [
+    {
+      "session_id": "-session",
+      "name": "@Turma, \"Alfa\" ação",
+      "day_of_week": "monday",
+      "exercises": [
+        {
+          "exercise_id": "=ex",
+          "name": "=HYPERLINK(\"https://example.invalid\")",
+          "sets": [
+            {
+              "reps": 12,
+              "rest_seconds": 60,
+              "load_kg": null,
+              "rpe": null
+            },
+            {
+              "reps": 8,
+              "rest_seconds": 90,
+              "load_kg": 12.5,
+              "rpe": 7.5
+            }
+          ]
+        },
+        {
+          "exercise_id": "acento-é",
+          "name": "Leg press, pés juntos",
+          "sets": [
+            {
+              "reps": 10,
+              "rest_seconds": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "session_id": "normal-session",
+      "name": "Treino Ñ, Beta",
+      "day_of_week": "thursday",
+      "exercises": [
+        {
+          "exercise_id": "at-id",
+          "name": "@CMD",
+          "sets": [
+            {
+              "reps": 6,
+              "rest_seconds": 300,
+              "load_kg": 0,
+              "rpe": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

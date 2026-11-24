@@ -1,0 +1,9 @@
+program_id,program_title,week,session_id,session_name,day_of_week,exercise_id,exercise_name,set_number,reps,load_kg,rpe,rest_seconds
+'+fixture-id,"'=SOMA(A1:A2) - ""ação"", São Paulo",1,'-session,"'@Turma, ""Alfa"" ação",monday,'=ex,"'=HYPERLINK(""https://example.invalid"")",1,12,,,60
+'+fixture-id,"'=SOMA(A1:A2) - ""ação"", São Paulo",1,'-session,"'@Turma, ""Alfa"" ação",monday,'=ex,"'=HYPERLINK(""https://example.invalid"")",2,8,12.5,7.5,90
+'+fixture-id,"'=SOMA(A1:A2) - ""ação"", São Paulo",1,'-session,"'@Turma, ""Alfa"" ação",monday,acento-é,"Leg press, pés juntos",1,10,,,0
+'+fixture-id,"'=SOMA(A1:A2) - ""ação"", São Paulo",1,normal-session,"Treino Ñ, Beta",thursday,at-id,'@CMD,1,6,0.0,1.0,300
+'+fixture-id,"'=SOMA(A1:A2) - ""ação"", São Paulo",2,'-session,"'@Turma, ""Alfa"" ação",monday,'=ex,"'=HYPERLINK(""https://example.invalid"")",1,12,,,60
+'+fixture-id,"'=SOMA(A1:A2) - ""ação"", São Paulo",2,'-session,"'@Turma, ""Alfa"" ação",monday,'=ex,"'=HYPERLINK(""https://example.invalid"")",2,8,12.5,7.5,90
+'+fixture-id,"'=SOMA(A1:A2) - ""ação"", São Paulo",2,'-session,"'@Turma, ""Alfa"" ação",monday,acento-é,"Leg press, pés juntos",1,10,,,0
+'+fixture-id,"'=SOMA(A1:A2) - ""ação"", São Paulo",2,normal-session,"Treino Ñ, Beta",thursday,at-id,'@CMD,1,6,0.0,1.0,300
