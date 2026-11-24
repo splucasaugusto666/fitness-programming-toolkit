@@ -4,7 +4,13 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from .core import MAX_BYTES, DataValidationError, _unique_json_pairs, parse_program, summarize_program
+from .core import (
+    MAX_BYTES,
+    DataValidationError,
+    _unique_json_pairs,
+    parse_program,
+    summarize_program,
+)
 from .schema import get_program_schema
 
 PROFILES = ("openai-responses", "openai-chat", "anthropic", "gemini")
