@@ -14,14 +14,14 @@ Comment before significant work so we can agree on expected behavior and avoid d
 ```sh
 git clone https://github.com/splucasaugusto666/fitness-programming-toolkit.git
 cd fitness-programming-toolkit
-python -m pip install -e .
+python -m pip install -e '.[test]'
 python -m unittest discover -s tests -v
 python -m compileall -q src tests
 python -m pip install ruff  # local development only
 ruff check .
 ```
 
-Python **3.11+** is supported; CI runs on 3.11, 3.12 and 3.13. Do not add runtime dependencies without a compelling and discussed benefit.
+The test extra installs jsonschema for structural contract tests. Python **3.11+** is supported; CI runs on 3.11, 3.12 and 3.13. Do not add runtime dependencies without a compelling and discussed benefit.
 
 ## PR expectations
 

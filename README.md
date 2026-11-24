@@ -26,6 +26,8 @@ The included 4-week synthetic example produces **2 sessions / 7 sets / 68 reps p
 
 See [Getting started](docs/QUICKSTART.md) for expected output and a Python example; see [API reference](docs/API.md) and [plan format](docs/FORMAT.md) for exact rules. The CSV wire format is covered by [byte-exact regression fixtures](docs/FORMAT.md#deterministic-csv-bytes-golden-contract).
 
+The [JSON Schema 2020-12](schemas/program-1.0.schema.json) provides a structural precheck for non-Python consumers; see [documented limits](docs/FORMAT.md#explicit-limits-of-parity). The runtime remains dependency-free.
+
 ## Typical uses
 
 - Reject malformed workout JSON before an import to a gym or coaching app.
@@ -43,11 +45,12 @@ See [Getting started](docs/QUICKSTART.md) for expected output and a Python examp
 
 ## Contribute
 
-Contributions are welcome, but **measurable utility matters more than commit counts**. Start with [issue #1 (JSON Schema)](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1), reproduce a bug, or propose an integration you actually need. [Issue #2 (CSV fixtures)](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2) was completed by [PR #3](https://github.com/splucasaugusto666/fitness-programming-toolkit/pull/3). Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [maintainer guide](docs/MAINTAINERS.md).
+Contributions are welcome, but **measurable utility matters more than commit counts**. Start by reproducing a bug or proposing an integration you actually need. The [JSON Schema issue #1](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1) tracks the structural precheck. [Issue #2 (CSV fixtures)](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2) was completed by [PR #3](https://github.com/splucasaugusto666/fitness-programming-toolkit/pull/3). Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [maintainer guide](docs/MAINTAINERS.md).
 
 Test locally:
 
 ```sh
+python -m pip install -e '.[test]'
 python -m unittest discover -s tests -v
 python -m compileall -q src tests
 ruff check .  # optional local development tool; installed by CI
@@ -59,7 +62,8 @@ GitHub Actions runs these checks on Python 3.11, 3.12, and 3.13.
 
 - **v0.1.0:** Strict plan validation, volume summaries, CLI and safe CSV output (implemented).
 - **Unreleased:** CSV compatibility fixtures and byte-exact regression tests (implemented after v0.1.0).
-- **v0.2 research:** A versioned JSON Schema and evaluation of practical adapters.
+- **Unreleased:** JSON Schema 2020-12, cross-validator fixtures and explicit parity limits.
+- **v0.2 research:** Evaluation of practical adapters.
 - **Future proposals:** Data adapters based on evidenced demand, plus Portuguese-Brazilian usage examples.
 
 Read the [changelog](CHANGELOG.md), [security policy](SECURITY.md) and [release notes](docs/RELEASE_NOTES_v0.1.0.md).

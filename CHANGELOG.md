@@ -2,7 +2,11 @@
 
 Changes to the plan format and command output must be recorded here. FPTK is in its experimental 0.x series.
 
-## [Unreleased] — CSV compatibility regression contract
+## [Unreleased] — CSV contract and JSON Schema
+
+- Added a versioned, standalone Draft 2020-12 JSON Schema with valid and invalid fixtures.
+- Added tests for structural agreement and explicit runtime-only constraints.
+- Added a test-only jsonschema dependency; the runtime remains dependency-free.
 
 - Added synthetic, tracked input/output fixtures for byte-exact UTF-8/CRLF CSV exports.
 - Added CLI and library regression tests for deterministic week/set ordering, blank
