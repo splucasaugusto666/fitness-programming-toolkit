@@ -85,6 +85,9 @@ Use `fptk-ai tools openai-responses` to export declarations or
 `fptk-ai call fptk_schema` to retrieve the workout contract as JSON.
 Generate local client settings with `fptk-ai mcp-config claude-desktop`,
 `fptk-ai mcp-config cursor` or `fptk-ai mcp-config vscode`.
+Export an optional authenticated HTTP/OpenAPI contract with `fptk-ai openapi`.
+The [HTTP adapter guide](docs/AI_INTEGRATIONS.md#optional-authenticated-http-adapter--openapi-for-remote-agents)
+explains operator-controlled deployment; no service is hosted by FPTK.
 The AI-specific CLI is independent of the existing `fptk` commands.
 
 ## Typical uses

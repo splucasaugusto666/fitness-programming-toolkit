@@ -4,6 +4,10 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Add an optional authenticated WSGI adapter and OpenAPI 3.1 export for remote
+  AI tools, with bounded input, read-only routes and no automatic hosting.
+- Add six adapter tests; verify contract export from an isolated wheel.
+
 - Generate local MCP client configuration for Claude Desktop, Cursor and VS Code;
   preserve virtual environment paths, use isolated Python imports, and test actual
   stdio communication with the generated launch settings.

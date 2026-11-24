@@ -67,3 +67,5 @@ não uma prescrição de treino nem certificação clínica. As APIs comerciais 
 pelo uso dos modelos; o processamento local não precisa de chave de API.
 
 Para facilitar a conexão com clientes MCP locais, instale o extra em um ambiente virtual e gere a configuração com `fptk-ai mcp-config claude-desktop`, `fptk-ai mcp-config cursor` ou `fptk-ai mcp-config vscode`. Mescle a entrada no cliente manualmente. O comando não altera configurações, não inicia servidores e não conecta automaticamente aplicativos hospedados na nuvem.
+
+O adaptador HTTP opcional oferece um contrato OpenAPI 3.1 (`fptk-ai openapi`) e exige autenticação Bearer. Não existe hospedagem automática. Para conectar IAs remotas, o operador deve configurar um serviço HTTPS protegido conforme o [guia de integração](AI_INTEGRATIONS.md).

@@ -8,6 +8,7 @@ from typing import BinaryIO, TextIO
 
 from .ai import PROFILES, call_tool, tool_definitions
 from .core import MAX_BYTES
+from .http_tools import openapi_document
 from .mcp_config import CLIENTS, mcp_config
 
 
@@ -24,12 +25,19 @@ def main(
     tools.add_argument("profile", choices=PROFILES)
     config = commands.add_parser("mcp-config", help="Print local MCP client configuration")
     config.add_argument("client", choices=CLIENTS)
+    api = commands.add_parser("openapi", help="Print the optional HTTP API contract")
+    api.add_argument("--server-url", help="Operator-controlled HTTPS URL")
     invoke = commands.add_parser("call", help="Run a read-only tool locally")
     invoke.add_argument("name", choices=("fptk_schema", "fptk_validate", "fptk_summary"))
     args = parser.parse_args(argv)
     output = sys.stdout if stdout is None else stdout
     if args.command == "tools":
         result = tool_definitions(args.profile)
+    elif args.command == "openapi":
+        try:
+            result = openapi_document(args.server_url)
+        except ValueError as exc:
+            parser.error(str(exc))
     elif args.command == "mcp-config":
         result = mcp_config(args.client)
     elif args.name == "fptk_schema":
