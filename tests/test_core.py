@@ -9,7 +9,11 @@ import unittest
 from pathlib import Path
 
 from fitness_programming_toolkit import (
-    DataValidationError, export_csv, parse_program, read_program, summarize_program,
+    DataValidationError,
+    export_csv,
+    parse_program,
+    read_program,
+    summarize_program,
 )
 from fitness_programming_toolkit.cli import main
 
