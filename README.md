@@ -92,7 +92,7 @@ python -m compileall -q src tests
 ruff check .  # optional local development tool; installed by CI
 ```
 
-GitHub Actions runs these checks on Python 3.11, 3.12, and 3.13.
+GitHub Actions tests Linux on Python 3.11, 3.12 and 3.13, plus Windows and macOS on Python 3.13. The distribution job checks the source archive, wheel metadata, and an offline wheel installation with the documented CLI outputs. See [distribution verification](docs/DISTRIBUTION.md).
 
 ## Roadmap
 

@@ -4,6 +4,10 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Expand CI to Windows and macOS alongside Linux; validate source and wheel builds,
+  metadata, offline wheel installation in a clean environment and exact CLI output.
+- Include format schemas, examples, documentation and tests in source distributions.
+
 - Improve README discoverability and package metadata; add Portuguese integration guide
   with an executable example and a regression test. Document responsible SEO practices.
 
