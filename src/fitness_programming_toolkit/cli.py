@@ -57,6 +57,13 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "summary":
             print(json.dumps(summarize_program(program), indent=2, ensure_ascii=False))
         else:
+            # Refuse accidental destruction of the source, including existing aliases.
+            try:
+                same_input = args.input.samefile(args.output)
+            except FileNotFoundError:
+                same_input = False
+            if same_input:
+                raise DataValidationError("CSV destination must differ from the JSON input")
             # Serialize to memory first, avoiding a partially written file for bad data.
             content = export_csv(program)
             _publish_csv(args.output, content, force=args.force)

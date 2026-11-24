@@ -41,6 +41,10 @@ POSIX), not the previous destination's metadata. These safeguards are not a prom
 of power-loss durability, directory synchronization, or safety against arbitrary
 changes to a parent directory. Use a trusted output directory.
 
+The CSV destination must be distinct from the JSON input, even with `--force`.
+Existing filesystem aliases of the input are rejected. This is an accidental-loss
+guard, not a guarantee against hostile concurrent path replacement.
+
 ## Use the Python interface
 
 ```python
