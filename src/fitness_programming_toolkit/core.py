@@ -65,15 +65,23 @@ class Program:
     schema_version: str = "1.0"
 
 
+def _display_key(key: str) -> str:
+    """Keep control characters and isolated surrogates out of error messages."""
+    return key if key.isprintable() else ascii(key)
+
+
 def _object(value: Any, path: str, *, fields: set[str], required: set[str]) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise DataValidationError(f"{path}: expected object")
+    if any(not isinstance(key, str) for key in value):
+        raise DataValidationError(f"{path}: object keys must be strings")
     missing = required - value.keys()
     if missing:
         raise DataValidationError(f"{path}: missing {', '.join(sorted(missing))}")
     unexpected = value.keys() - fields
     if unexpected:
-        raise DataValidationError(f"{path}: unsupported {', '.join(sorted(unexpected))}")
+        keys = ", ".join(_display_key(key) for key in sorted(unexpected))
+        raise DataValidationError(f"{path}: unsupported {keys}")
     return value
 
 
@@ -176,7 +184,7 @@ def _unique_json_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     result: dict[str, Any] = {}
     for key, value in pairs:
         if key in result:
-            raise DataValidationError(f"JSON: duplicate key '{key}'")
+            raise DataValidationError(f"JSON: duplicate key {ascii(key)}")
         result[key] = value
     return result
 
