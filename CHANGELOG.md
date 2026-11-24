@@ -2,6 +2,14 @@
 
 Changes to the plan format and command output must be recorded here. FPTK is in its experimental 0.x series.
 
+## [Unreleased] — CSV compatibility regression contract
+
+- Added synthetic, tracked input/output fixtures for byte-exact UTF-8/CRLF CSV exports.
+- Added CLI and library regression tests for deterministic week/set ordering, blank
+  optional fields, Unicode, quoting, and four common formula-leading characters.
+- Documented spreadsheet security limitations and Git line-ending preservation.
+- No change to the `1.0` JSON schema or `export_csv` output format.
+
 ## [0.1.0] — initial public alpha
 
 - Strict schema-versioned JSON plan validation, immutable data models and explicit error paths.
@@ -12,11 +20,3 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 - Public quickstart, Python API guide, release notes, maintainer guidance and contribution issues.
 
 **Limitations:** alpha API, source distribution only (no PyPI), no training safety evaluation, no demonstrated third-party adoption.
-
-## [Unreleased] — CSV compatibility regression contract
-
-- Added synthetic, tracked input/output fixtures for byte-exact UTF-8/CRLF CSV exports.
-- Added CLI and library regression tests for deterministic week/set ordering, blank
-  optional fields, Unicode, quoting, and four common formula-leading characters.
-- Documented spreadsheet security limitations and Git line-ending preservation.
-- No change to the `1.0` JSON schema or `export_csv` output format.

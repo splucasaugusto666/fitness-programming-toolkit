@@ -43,7 +43,7 @@ See [Getting started](docs/QUICKSTART.md) for expected output and a Python examp
 
 ## Contribute
 
-Contributions are welcome, but **measurable utility matters more than commit counts**. Start with [issue #1 (JSON Schema)](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1) or [issue #2 (CSV fixtures)](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2), reproduce a bug, or propose an integration you actually need. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [maintainer guide](docs/MAINTAINERS.md).
+Contributions are welcome, but **measurable utility matters more than commit counts**. Start with [issue #1 (JSON Schema)](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1), reproduce a bug, or propose an integration you actually need. [Issue #2 (CSV fixtures)](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2) was completed by [PR #3](https://github.com/splucasaugusto666/fitness-programming-toolkit/pull/3). Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [maintainer guide](docs/MAINTAINERS.md).
 
 Test locally:
 

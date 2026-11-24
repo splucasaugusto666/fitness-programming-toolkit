@@ -1,8 +1,10 @@
-# Public contribution opportunities
+# Publicly tracked contribution opportunities
 
-These are open issues, not contributions completed by outsiders.
+The following **real issues** document current and completed engineering work:
 
-- [Issue #1 — versioned JSON Schema](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1): a JSON Schema with documented gaps where Python-only checks cannot be expressed.
-- [Issue #2 — CSV golden fixtures](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2): byte-for-byte compatibility tests for order, Unicode, CRLF, quoting, optional fields and formula-like strings.
+1. [#1 — Add a versioned JSON Schema with documented parity limits](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1). Python validation has rules (such as ID uniqueness across objects) that plain JSON Schema cannot directly reproduce; document these gaps honestly.
+2. [#2 — Add deterministic CSV golden fixtures](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2) — **completed by [PR #3](https://github.com/splucasaugusto666/fitness-programming-toolkit/pull/3)**. Exact CSV bytes and regression tests are now part of the repository.
 
-Additional interoperability research should compare OpenSet or Portable Workout Format with public synthetic fixtures, explain information loss, and check licensing before implementing adapters. No external adoption is assumed.
+## Research only; not a contribution claim
+
+A future interoperability feasibility report could compare the local format to OpenSet and Portable Workout Format with toy fixtures, licensing checks and a precise mapping of data loss. Do not open redundant issues or PRs solely to inflate contributions. External adoption and accepted third-party changes have **not** been verified.
