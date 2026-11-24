@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fitness-programming-toolkit"
 version = "0.1.0"
-description = "Offline validation, summaries and safe CSV export for strength-training plans"
+description = "Offline Python workout plan validation, training volume summaries and streaming CSV export"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [{name = "Fitness Programming Toolkit contributors"}]
-keywords = ["fitness", "strength-training", "workout", "validation", "csv"]
+keywords = ["fitness", "strength-training", "workout-plan", "training-volume", "json-schema", "data-validation", "csv", "streaming", "gym-software"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -20,6 +20,12 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+
+[project.urls]
+Homepage = "https://github.com/splucasaugusto666/fitness-programming-toolkit"
+Documentation = "https://github.com/splucasaugusto666/fitness-programming-toolkit/blob/main/docs/API.md"
+Issues = "https://github.com/splucasaugusto666/fitness-programming-toolkit/issues"
+Changelog = "https://github.com/splucasaugusto666/fitness-programming-toolkit/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 test = ["jsonschema>=4.23,<5"]
