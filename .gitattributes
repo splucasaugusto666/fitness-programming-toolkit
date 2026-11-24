@@ -1,0 +1,2 @@
+# The golden fixture must retain exact CRLF bytes across operating systems.
+tests/fixtures/*.csv -text

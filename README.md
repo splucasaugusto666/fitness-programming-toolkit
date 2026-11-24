@@ -1,84 +1,69 @@
 # Fitness Programming Toolkit (FPTK)
 
 [![Python CI](https://github.com/splucasaugusto666/fitness-programming-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/splucasaugusto666/fitness-programming-toolkit/actions/workflows/ci.yml)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**Version:** `0.1.0` (alpha, unstable API). Distributed as GitHub source, **not PyPI**.
+**Version:** `0.1.0` (early alpha; no stable public API guarantee). **Distribution:** GitHub source only, not PyPI.
 
-FPTK is a small, offline Python package for checking the *structure* of strength-training
-plans, summarizing their planned volume, and exporting a set-by-set CSV that a coach can
-review or import into other tools. It is intended for developers, coaches and gym software
-integrators who want deterministic data validation without a SaaS dependency.
+FPTK is a small, offline Python package for **structural validation of strength-training plan data**, deterministic volume summaries, and spreadsheet-safe, set-by-set CSV exports. It is for developers, coaches and gym software integrators who want auditable data processing without a SaaS dependency.
 
-## Why this exists
+It does **not** assess exercise safety, prescribe appropriate loads, measure outcomes, manage patients, or provide medical advice.
 
-OpenSet, PWF and other projects address broad workout interchange. FPTK deliberately
-focuses on a narrow plan template and a practical Python CLI. It does **not** claim to be
-an interoperability standard, medical screening tool, AI trainer, or clinical decision aid.
+## Quick start
 
-## Requirements
-
-Python 3.11+ (no runtime third-party dependencies).
-
-## Install (local checkout)
+Requires **Python 3.11+**; the runtime uses only the Python standard library.
 
 ```sh
+git clone https://github.com/splucasaugusto666/fitness-programming-toolkit.git
+cd fitness-programming-toolkit
 python -m pip install -e .
-```
-
-## Try it
-
-```sh
 fptk validate examples/strength_program.json
 fptk summary examples/strength_program.json
 fptk export-csv examples/strength_program.json --output program.csv
 ```
 
-To run without installing:
+The included 4-week synthetic example produces **2 sessions / 7 sets / 68 reps per week**, or **8 sessions / 28 sets / 272 reps** over four weeks. These are planned *counts*, not exercise-effectiveness or clinical assessments.
+
+See [Getting started](docs/QUICKSTART.md) for expected output and a Python example; see [API reference](docs/API.md) and [plan format](docs/FORMAT.md) for exact rules. The CSV wire format is covered by [byte-exact regression fixtures](docs/FORMAT.md#deterministic-csv-bytes-golden-contract).
+
+## Typical uses
+
+- Reject malformed workout JSON before an import to a gym or coaching app.
+- Generate a deterministic review summary of a weekly program repeated for multiple weeks.
+- Export a CSV with stable columns and spreadsheet-formula neutralization for untrusted text.
+- Run reproducible checks in a CI pipeline, locally and without network access.
+
+## Scope and tradeoffs
+
+- Accepts only `schema_version: "1.0"` with explicit field and size limits; unknown keys are rejected.
+- The same weekly template repeats for `weeks`. Progression, attendance, dates and individual responses are **not** modeled.
+- CSV is expanded per prescribed set *per week*. This may be large within the documented input limits.
+- Reads UTF-8 JSON up to 2 MB. Does not collect telemetry or require a hosted service.
+- Does not claim interoperability with OpenSet, PWF or any other format; adapters require separate research and agreement on lossy fields.
+
+## Contribute
+
+Contributions are welcome, but **measurable utility matters more than commit counts**. Start with [issue #1 (JSON Schema)](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1) or [issue #2 (CSV fixtures)](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2), reproduce a bug, or propose an integration you actually need. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [maintainer guide](docs/MAINTAINERS.md).
+
+Test locally:
 
 ```sh
-PYTHONPATH=src python -m fitness_programming_toolkit validate examples/strength_program.json
+python -m unittest discover -s tests -v
+python -m compileall -q src tests
+ruff check .  # optional local development tool; installed by CI
 ```
 
-## Python API
-
-```python
-from fitness_programming_toolkit import read_program, summarize_program, export_csv
-plan = read_program("examples/strength_program.json")
-print(summarize_program(plan)["weekly_sets"])
-print(export_csv(plan)[:100])
-```
-
-## Guarantees and limits
-
-- Supports the documented `schema_version: "1.0"`; rejects unknown keys, duplicated IDs
-  within their scope, control characters, booleans as numbers, NaN and infinity.
-- `weeks` repeats a weekly template. The tool does not model progression,
-  individual attendance or calendar dates.
-- The CSV contains one row per set *per week* and prefixes formula-like text
-  (`=`, `+`, `-`, `@`) so spreadsheet software does not execute it as a formula.
-- Input limit: 2 MB; up to 52 weeks, 30 sessions, 50 exercises per session,
-  30 sets per exercise and 5,000 weekly sets.
-- Data is processed offline. No telemetry, network requests or user accounts.
-- This project does **not** determine whether a plan is appropriate or safe for a person.
-  Seek qualified professional guidance for individual health or injury concerns.
-
-See [docs/FORMAT.md](docs/FORMAT.md) for the exact schema and [CONTRIBUTING.md](CONTRIBUTING.md)
-for how to contribute. Test with `python -m unittest discover -s tests -v`.
-
-## Start contributing
-
-- [Issue #1: versioned JSON Schema](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/1).
-- [Issue #2: CSV golden fixtures](https://github.com/splucasaugusto666/fitness-programming-toolkit/issues/2).
-
-Real bug reproductions, integration requirements and tested improvements are welcome; there is no commitment to accept PRs. See [quickstart](docs/QUICKSTART.md), [API](docs/API.md), [maintainer guide](docs/MAINTAINERS.md), and [initial release notes](docs/RELEASE_NOTES_v0.1.0.md).
+GitHub Actions runs these checks on Python 3.11, 3.12, and 3.13.
 
 ## Roadmap
 
-- v0.1: Strict schema, CLI validation, summary, safe CSV export (implemented).
-- v0.2 proposal: More explicit versioned data model and machine-readable JSON Schema.
-- Future research: Import/export adapters to established open standards where permitted.
-- Future research: PT-BR documentation and public adoption feedback.
+- **v0.1.0:** Strict plan validation, volume summaries, CLI and safe CSV output (implemented).
+- **Unreleased:** CSV compatibility fixtures and byte-exact regression tests (implemented after v0.1.0).
+- **v0.2 research:** A versioned JSON Schema and evaluation of practical adapters.
+- **Future proposals:** Data adapters based on evidenced demand, plus Portuguese-Brazilian usage examples.
+
+Read the [changelog](CHANGELOG.md), [security policy](SECURITY.md) and [release notes](docs/RELEASE_NOTES_v0.1.0.md).
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+[MIT](LICENSE).

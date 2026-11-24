@@ -13,3 +13,5 @@ venv/
 *.csv
 !.github/*.csv
 .DS_Store
+# Golden fixture is intentionally tracked as part of the wire-format contract.
+!tests/fixtures/*.csv
