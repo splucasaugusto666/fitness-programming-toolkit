@@ -4,6 +4,11 @@ Changes to the plan format and command output must be recorded here. FPTK is in 
 
 ## [Unreleased] — CSV contract, JSON Schema and validation fixes
 
+- Stage and synchronize CSV bytes before publishing. Preserve existing destinations
+  on pre-publication write failures, and use exclusive hard-link publication unless
+  `--force` requests replacement of the destination entry. Add five failure-injection
+  and compatibility tests; document filesystem requirements.
+
 - Reject non-string object keys using `DataValidationError`, escape non-printable
   input keys in diagnostics, and use exclusive CSV creation without `--force`.
   Add three regression tests.
