@@ -56,6 +56,7 @@ and trust policy. No spreadsheet formula is evaluated by the test suite.
 Run the contract tests with:
 
 ```sh
+python -m pip install -e '.[test]'
 python -m unittest discover -s tests -v
 ```
 
@@ -63,3 +64,54 @@ Do not regenerate the golden CSV as part of a test. A deliberate CSV format chan
 requires manual review of the byte diff and compatibility implications before updating
 this fixture. This test validates the exporter and CLI output only; it does not promise
 interoperability with an external training-plan standard.
+
+
+## JSON Schema 2020-12
+
+The [versioned schema](../schemas/program-1.0.schema.json) validates ordinary JSON
+structure before a consumer invokes the authoritative Python validator.
+It has no remote references, so it can be downloaded and used offline with a
+Draft 2020-12 validator. The public format version remains the string "1.0".
+
+Python example (from the repository root):
+
+```sh
+python -m pip install -e '.[test]'
+python -m json.tool schemas/program-1.0.schema.json
+python -m unittest discover -s tests -v
+```
+
+```python
+import json
+from pathlib import Path
+from jsonschema import Draft202012Validator
+from fitness_programming_toolkit import read_program
+
+schema = json.loads(Path("schemas/program-1.0.schema.json").read_text(encoding="utf-8"))
+data = json.loads(Path("examples/strength_program.json").read_text(encoding="utf-8"))
+Draft202012Validator(schema).validate(data)
+program = read_program("examples/strength_program.json")
+```
+
+### Explicit limits of parity
+
+- JSON Schema checks required fields, unknown keys, bounds, per-array sizes,
+  weekday values, and string length/control/trim rules. The whitespace
+  pattern uses an explicit Unicode set reflecting Python's strip behavior;
+  verify regex compatibility in your chosen validator.
+- It does not enforce unique session IDs or exercise IDs by property across
+  different objects. The Python validator does.
+- It cannot express the aggregate 5,000 weekly-set limit in a straightforward
+  portable structural schema. The Python validator checks the aggregate.
+- JSON Schema integer semantics include numeric values such as 1.0, whereas
+  the Python validator requires an actual int after parsing, and rejects
+  booleans. JSON Schema operates on parsed JSON values, not their numeric spelling.
+- The schema cannot enforce the original file's 2 MB byte limit, UTF-8
+  encoding, JSON duplicate member names, or non-standard non-finite tokens.
+  Use a strict JSON parser and the FPTK file reader for those checks.
+- Neither validator evaluates clinical or training suitability.
+
+See [valid](../tests/fixtures/schema_valid.json) and
+[invalid](../tests/fixtures/schema_invalid.json) synthetic fixtures.
+The schema is a structural precheck, not a claim of full equivalence
+or interoperability with another training format.

@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "program_id": "schema-example",
+  "title": "Treino de força",
+  "weeks": 1,
+  "sessions": [
+    {
+      "session_id": "a",
+      "name": "Treino A",
+      "day_of_week": "monday",
+      "exercises": [
+        {
+          "exercise_id": "squat",
+          "name": "Agachamento",
+          "sets": [
+            {
+              "reps": 8,
+              "rest_seconds": 90,
+              "load_kg": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
