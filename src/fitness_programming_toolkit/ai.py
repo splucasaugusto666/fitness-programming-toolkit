@@ -87,7 +87,7 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
     except DataValidationError as exc:
         # Bound model-visible diagnostics and escape non-printable characters.
         message = str(exc)[:512]
-        message = "".join(c if c.isprintable() else ascii(c)[1:-1] for c in message)
+        message = "".join(c if c.isprintable() else ascii(c)[1:-1] for c in message)[:512]
         return {"ok": False, "error": {"code": "invalid_plan", "message": message}}
     if name == "fptk_validate":
         return {"ok": True, "valid": True, "schema_version": program.schema_version}

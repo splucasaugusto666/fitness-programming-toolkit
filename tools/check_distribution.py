@@ -61,7 +61,21 @@ def run():
             [str(python), "-c", "from fitness_programming_toolkit.ai import call_tool; "
              "assert call_tool('fptk_schema', {})['ok']"], cwd=folder, check=True,
         )
+        ai_cli = bin_dir / ("fptk-ai.exe" if sys.platform == "win32" else "fptk-ai")
         fixture = ROOT / "examples/strength_program.json"
+        bridge_result = subprocess.run(
+            [str(ai_cli), "call", "fptk_summary"], cwd=folder, check=True,
+            input=fixture.read_bytes(), capture_output=True,
+        )
+        if json.loads(bridge_result.stdout)["summary"]["planned_sets"] != 28:
+            raise RuntimeError("Installed AI CLI summary differs from documented example")
+        declarations = subprocess.run(
+            [str(ai_cli), "tools", "anthropic"], cwd=folder, check=True, capture_output=True,
+        )
+        if {item["name"] for item in json.loads(declarations.stdout)} != {
+            "fptk_schema", "fptk_validate", "fptk_summary",
+        }:
+            raise RuntimeError("Installed AI CLI declarations are incomplete")
         result = subprocess.run(
             [str(cli), "summary", str(fixture)], cwd=folder,
             check=True, capture_output=True, text=True, encoding="utf-8",
